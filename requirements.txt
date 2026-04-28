@@ -1,0 +1,40 @@
+# Data manipulation & analysis
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.5.0
+imbalanced-learn==0.12.3
+
+# Visualization
+matplotlib==3.9.0
+seaborn==0.13.2
+
+# ML models
+xgboost==2.0.3
+lightgbm==4.3.0
+
+# Model interpretation
+shap==0.45.1
+lime==0.2.0.1
+
+# MLOps
+mlflow==2.14.1
+
+# API
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+pydantic==2.7.4
+
+# UI
+streamlit==1.36.0
+requests==2.32.3
+
+# Data drift
+evidently==0.4.30
+
+# Tests
+pytest==8.2.2
+httpx==0.27.0
+
+# Utils
+joblib==1.4.2
+python-dotenv==1.0.1

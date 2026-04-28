@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Data files (trop lourds pour Git)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+*.csv
+*.xlsx
+*.parquet
+
+# Modèles (lourds, on les versionne via MLFlow)
+*.pkl
+*.joblib
+models/*.bin
+
+# MLFlow
+mlruns/
+mlartifacts/
+*.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environnement
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
