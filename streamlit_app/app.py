@@ -15,17 +15,18 @@ import requests
 import plotly.graph_objects as go
 
 
-# === Configuration de l'API ===
-API_URL = "http://127.0.0.1:8000/predict"
-
-
-# === Configuration de la page ===
+# === Configuration de la page (DOIT ÊTRE EN PREMIER) ===
 st.set_page_config(
     page_title="Credit Scoring App",
     page_icon="💳",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+
+# === Configuration de l'API ===
+API_LOCAL = "http://127.0.0.1:8000/predict"
+API_PUBLIC = "https://credit-scoring-mlops-srt6.onrender.com/predict"
 
 
 # === Style custom CSS ===
@@ -65,8 +66,20 @@ with col_badge:
     st.info("🤖 **Powered by ML**\nXGBoost · MLFlow · FastAPI")
 
 
-# === Sidebar : informations contextuelles ===
+# === Sidebar complète ===
 with st.sidebar:
+    # Sélecteur API
+    st.header("⚙️ Configuration API")
+    api_choice = st.radio(
+        "Source",
+        options=["🌍 API Publique (Render)", "💻 API Locale"],
+        index=0,
+        help="Choisis quelle API appeler. L'API publique peut mettre 30-60s à se réveiller."
+    )
+    API_URL = API_PUBLIC if "Publique" in api_choice else API_LOCAL
+    
+    st.divider()
+    
     st.header("ℹ️ À propos")
     st.markdown("""
     Cette application utilise un modèle de **Machine Learning (XGBoost)** 
@@ -106,7 +119,6 @@ st.divider()
 # === Formulaire de saisie ===
 st.header("📋 Informations du client")
 
-# Utilisation de tabs pour organiser proprement
 tab1, tab2, tab3 = st.tabs(["💰 Financier", "👤 Personnel & Pro", "🌐 Scores externes"])
 
 with tab1:
@@ -297,11 +309,9 @@ if predict_button:
             st.divider()
             st.header("📊 Résultat de l'évaluation")
             
-            # Layout : jauge à gauche, métriques à droite
             col_gauge, col_metrics = st.columns([2, 1])
             
             with col_gauge:
-                # Jauge plotly
                 gauge_color = "#10b981" if proba < 0.3 else ("#f59e0b" if proba < 0.6 else "#ef4444")
                 
                 fig = go.Figure(go.Indicator(
@@ -349,7 +359,6 @@ if predict_button:
                     help="Au-dessus du seuil, le crédit est refusé"
                 )
             
-            # Message contextuel
             if decision == "ACCORDER":
                 st.success(f"""
                 ✅ **Crédit accordable.**  
@@ -361,7 +370,6 @@ if predict_button:
                 La probabilité de défaut estimée ({proba*100:.1f}%) dépasse le seuil de décision ({threshold*100:.0f}%).
                 """)
             
-            # Détails techniques (caché par défaut)
             with st.expander("🔍 Détails techniques"):
                 col_a, col_b = st.columns(2)
                 with col_a:
